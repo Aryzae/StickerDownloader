@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -98,11 +98,12 @@
 				};
 			};
 			buildConfigurationList = C6F4421B20FB34CC00AEF1F0 /* Build configuration list for PBXProject "StickerDownloader" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C6F4421720FB34CC00AEF1F0;
 			productRefGroup = C6F4422120FB34CC00AEF1F0 /* Products */;
@@ -177,6 +178,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/";
+				LIBRARY_SEARCH_PATHS = "${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -231,6 +234,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = "${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/";
+				LIBRARY_SEARCH_PATHS = "${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -244,8 +249,12 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U38WFWB5D6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/",
+					"@executable_path",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -254,8 +263,12 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U38WFWB5D6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx/",
+					"@executable_path",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
