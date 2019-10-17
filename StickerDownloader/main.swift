@@ -10,7 +10,7 @@ import Foundation
 import Cocoa
 //
 public extension NSImage {
-    public func writePNG(fileName: String) {
+    func writePNG(fileName: String) {
         let savePath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/\(fileName).png")
         print(savePath)
         
