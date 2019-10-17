@@ -108,7 +108,7 @@ let task = session.dataTask(with: .init(url: url)) { (data, response, error) in
         exit(0)
     }
     let imageURLs = captureImageURLs(from: html)
-    let urls = imageURLs.map { URL(string: $0)! }
+    let urls = imageURLs.compactMap { URL(string: $0) }
     // 画像のDL
     downloadImage(from: urls)
     
