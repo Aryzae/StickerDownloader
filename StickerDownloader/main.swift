@@ -85,9 +85,9 @@ func downloadImage(from urls: [URL]) {
 
 //
 let semaphore = DispatchSemaphore(value: 0)
-let HttpProtocol = "http"
+let HttpsProtocol = "https"
 
-let urlStrings = CommandLine.arguments.filter { $0.hasPrefix(HttpProtocol) }
+let urlStrings = CommandLine.arguments.filter { $0.hasPrefix(HttpsProtocol) }
 
 guard let urlString = urlStrings.first, let url = URL(string: urlString) else {
     print(" Not contains URL.")
