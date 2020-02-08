@@ -89,7 +89,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = aryzae;
 				TargetAttributes = {
 					C6F4421F20FB34CC00AEF1F0 = {
@@ -247,6 +247,7 @@
 		C6F4422820FB34CC00AEF1F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U38WFWB5D6;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -261,6 +262,7 @@
 		C6F4422920FB34CC00AEF1F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U38WFWB5D6;
 				LD_RUNPATH_SEARCH_PATHS = (
