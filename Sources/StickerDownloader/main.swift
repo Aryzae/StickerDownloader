@@ -12,7 +12,11 @@ import Cocoa
 // MARK: - convert image
 public extension NSImage {
     func writePNG(fileName: String) {
-        let savePath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/\(fileName).png")
+        guard let downloadsPath = try? FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
+            print("Downloads path not found.")
+            exit(0)
+        }
+        let savePath = URL(fileURLWithPath: downloadsPath.absoluteString + "\(titlePath)" + "/\(fileName).png")
         print(savePath)
         
         guard let data = tiffRepresentation,
@@ -140,4 +144,4 @@ task.resume()
 semaphore.wait()
 print("\n==========================================")
 print("Download successful!!.")
-print("open ~/Desktop/sticker")
+print("open ~/Downloads")
