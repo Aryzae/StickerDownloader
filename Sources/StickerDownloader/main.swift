@@ -33,14 +33,14 @@ public extension NSImage {
     }
 }
 
-func stickerTitle(from html: String) -> String? {
+func stickerTitle(from html: String) -> String {
     let tagTitleStart = "<title>"
     let tagTitleEnd = "</title>"
     let gabadgeSuffix = " - LINE スタンプ | LINE STORE"
     let stickerTitleRegularExpression = "\(tagTitleStart)*\(tagTitleEnd)"
     // 正規表現でタイトル部分の抜き出し
-    guard let regex = try? NSRegularExpression(pattern: stickerTitleRegularExpression) else { return nil }
-    guard let match = regex.matches(in: html, range: NSRange(location: 0, length: html.count)).first else { return nil }
+    guard let regex = try? NSRegularExpression(pattern: stickerTitleRegularExpression) else { return "" }
+    guard let match = regex.matches(in: html, range: NSRange(location: 0, length: html.count)).first else { return "" }
     let titles = html.map { _ in (html as NSString).substring(with: match.range(at: 0)) }
     guard var title = titles.first else { exit(0) }
     // <title> </title>のタグと余分なタイトルを落とす
@@ -103,6 +103,7 @@ func downloadImage(from urls: [URL]) {
 }
 
 // MARK: - property
+var titlePath = ""
 let semaphore = DispatchSemaphore(value: 0)
 let HttpsProtocol = "https"
 
@@ -127,7 +128,7 @@ let task = session.dataTask(with: .init(url: url)) { (data, response, error) in
         print("Failed encodeing data to html.")
         exit(0)
     }
-    let title = stickerTitle(from: html)
+    titlePath = stickerTitle(from: html)
     let imageURLs = captureImageURLs(from: html)
     let urls = imageURLs.compactMap { URL(string: $0) }
     // 画像のDL
