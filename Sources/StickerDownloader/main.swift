@@ -102,7 +102,7 @@ let task = session.dataTask(with: .init(url: url)) { (data, response, error) in
         semaphore.signal()
     }
     guard let data = data else {
-        print("No data.")
+        print("Data not found.")
         exit(0)
     }
     guard let html = String.init(data: data, encoding: .utf8) else {
