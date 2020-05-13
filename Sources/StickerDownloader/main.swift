@@ -8,7 +8,8 @@
 
 import Foundation
 import Cocoa
-//
+
+// MARK: - convert image
 public extension NSImage {
     func writePNG(fileName: String) {
         let savePath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/\(fileName).png")
@@ -83,7 +84,7 @@ func downloadImage(from urls: [URL]) {
     }
 }
 
-//
+// MARK: - property
 let semaphore = DispatchSemaphore(value: 0)
 let HttpsProtocol = "https"
 
@@ -94,6 +95,7 @@ guard let urlString = urlStrings.first, let url = URL(string: urlString) else {
     exit(0)
 }
 
+// MARK: - 1. download
 let session = URLSession(configuration: .default)
 let task = session.dataTask(with: .init(url: url)) { (data, response, error) in
     defer{
