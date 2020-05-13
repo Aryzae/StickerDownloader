@@ -39,16 +39,22 @@ func createDownloadsPath() -> URL {
         // Downloadsフォルダを取得
         let downloadsPath = try fileManager.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         savePath = downloadsPath.appendingPathComponent(titlePath, isDirectory: true)
+
+        // file:// を除去してからtitlePathをつけないとを%エンコーディングされた文字でdirectory判定が狂う
+        var pathWithoutFile = downloadsPath.absoluteString.replacingOccurrences(of: "file://", with: "")
+        pathWithoutFile = pathWithoutFile + "\(titlePath)"
+
         // titlePathのフォルダ作成
-        if !titlePath.isEmpty {
+        var isDirectory: ObjCBool = true
+        let exists = fileManager.fileExists(atPath: pathWithoutFile, isDirectory: &isDirectory)
+
+        if !exists {
             try fileManager.createDirectory(at: savePath, withIntermediateDirectories: false, attributes: nil)
         }
     } catch (let error) {
-        print(error.localizedDescription)
+        print("Error Function '\(#function)' Line: \(#line) \(error.localizedDescription)")
         exit(0)
     }
-
-    print(savePath)
 
     return savePath
 }
@@ -161,4 +167,4 @@ task.resume()
 semaphore.wait()
 print("\n==========================================")
 print("Download successful!!.")
-print("open ~/Downloads")
+print("open ~/Downloads\n")
