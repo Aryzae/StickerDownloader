@@ -118,3 +118,6 @@ let task = session.dataTask(with: .init(url: url)) { (data, response, error) in
 task.resume()
 // 非同期処理実行のために待機
 semaphore.wait()
+print("\n==========================================")
+print("Download successful!!.")
+print("open ~/Desktop/sticker")
