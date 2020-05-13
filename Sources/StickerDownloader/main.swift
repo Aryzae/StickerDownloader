@@ -11,25 +11,19 @@ import Cocoa
 
 // MARK: - convert image
 public extension NSImage {
-    func writePNG(fileName: String) {
-        guard let downloadsPath = try? FileManager.default.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
-            print("Downloads path not found.")
-            exit(0)
-        }
-        let savePath = URL(fileURLWithPath: downloadsPath.absoluteString + "\(titlePath)" + "/\(fileName).png")
-        print(savePath)
+    func writePNG(fileName: String, path: URL) {
+        let filePath = path.appendingPathComponent("/\(fileName).png")
         
         guard let data = tiffRepresentation,
             let rep = NSBitmapImageRep(data: data),
             let imgData = rep.representation(using: .png, properties: [.compressionFactor : NSNumber(floatLiteral: 1.0)]) else {
-                
-                print("\(self.self) Error Function '\(#function)' Line: \(#line) No tiff rep found for image writing to \(savePath)")
+                print("\(self.self) Error Function '\(#function)' Line: \(#line) No tiff rep found for image writing to \(path)")
                 exit(0)
         }
         
         do {
             // file protocol必須 file:///
-            try imgData.write(to: savePath, options: .atomicWrite)
+            try imgData.write(to: filePath, options: .atomicWrite)
         } catch let error {
             print("\(self.self) Error Function '\(#function)' Line: \(#line) \(error.localizedDescription)")
             exit(0)
@@ -37,11 +31,33 @@ public extension NSImage {
     }
 }
 
+func createDownloadsPath() -> URL {
+    let savePath: URL
+    let fileManager = FileManager.default
+
+    do {
+        // Downloadsフォルダを取得
+        let downloadsPath = try fileManager.url(for: .downloadsDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        savePath = downloadsPath.appendingPathComponent(titlePath, isDirectory: true)
+        // titlePathのフォルダ作成
+        if !titlePath.isEmpty {
+            try fileManager.createDirectory(at: savePath, withIntermediateDirectories: false, attributes: nil)
+        }
+    } catch (let error) {
+        print(error.localizedDescription)
+        exit(0)
+    }
+
+    print(savePath)
+
+    return savePath
+}
+
 func stickerTitle(from html: String) -> String {
     let tagTitleStart = "<title>"
     let tagTitleEnd = "</title>"
     let gabadgeSuffix = " - LINE スタンプ | LINE STORE"
-    let stickerTitleRegularExpression = "\(tagTitleStart)*\(tagTitleEnd)"
+    let stickerTitleRegularExpression = "\(tagTitleStart).*\(tagTitleEnd)"
     // 正規表現でタイトル部分の抜き出し
     guard let regex = try? NSRegularExpression(pattern: stickerTitleRegularExpression) else { return "" }
     guard let match = regex.matches(in: html, range: NSRange(location: 0, length: html.count)).first else { return "" }
@@ -84,6 +100,7 @@ func captureImageURLs(from html: String) -> [String] {
 
 func downloadImage(from urls: [URL]) {
     let semaphore = DispatchSemaphore(value: 0)
+    let path = createDownloadsPath()
     
     for (index, url) in urls.enumerated() {
         let session = URLSession(configuration: .default)
@@ -99,7 +116,7 @@ func downloadImage(from urls: [URL]) {
                 print("Failed encodeing data to html.")
                 exit(0)
             }
-            image.writePNG(fileName: String(index))
+            image.writePNG(fileName: String(index), path: path)
         }
         task.resume()
         semaphore.wait()
